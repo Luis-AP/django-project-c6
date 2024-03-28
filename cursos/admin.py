@@ -1,11 +1,17 @@
 from django.contrib import admin
 
-from .models import Curso, Categoria, Instructor, Estudiante
+from .models import Curso, Categoria, Instructor, Estudiante, Inscripcion
 
 
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "precio", "fecha_publicacion", "categoria", "instructor")
+    list_display = (
+        "nombre",
+        "precio",
+        "fecha_publicacion",
+        "categoria",
+        "instructor",
+    )
     search_fields = ("nombre", "descripcion", "categoria__nombre", "instructor__nombre")
     list_filter = ("categoria", "estado", "fecha_publicacion")
     ordering = ("nombre", "precio", "fecha_publicacion")
@@ -16,7 +22,16 @@ class CursoAdmin(admin.ModelAdmin):
         ),
         (
             "Detalles del curso",
-            {"fields": ("categoria", "instructor", "duracion", "estado")},
+            {
+                "fields": (
+                    "categoria",
+                    "instructor",
+                    "duracion",
+                    "estado",
+                    "destacado",
+                    "requisitos",
+                )
+            },
         ),
     )
 
@@ -37,3 +52,6 @@ class InstructorAdmin(admin.ModelAdmin):
 class EstudianteAdmin(admin.ModelAdmin):
     list_display = ("nombre", "email")
     search_fields = ("nombre", "email")
+
+
+admin.site.register(Inscripcion)
