@@ -16,7 +16,7 @@
             href="{% static 'img/favicon.png' %}"
         />
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-        {% block styles %} {% endblock %}
+        {% block styles %}{% endblock %}
     </head>
     <body class="main-body">
         <header>
@@ -25,7 +25,9 @@
                     <li>
                         <a href="{% url 'home' %}">Home</a>
                     </li>
-                    <li>Cursos</li>
+                    <li>
+                        <a href="{% url 'curso_list' %}">Cursos</a>
+                    </li>
                 </ul>
             </nav>
         </header>
