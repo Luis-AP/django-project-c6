@@ -92,3 +92,6 @@ staticfiles/
 
 ### Virtual Environment ###
 venv/
+
+media/*
+!media/**/fallback.png

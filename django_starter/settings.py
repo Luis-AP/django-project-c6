@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-s6oq$o^onh8$rlm#3u-vzt+%u=1d-^&93a5%je#b075&_$pyj-"
+SECRET_KEY = "django-insecure-d8388=!pgb1$cj_)z@*oowzdfnzk1&%lyi0#ozsfwbaqhn4trf"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "cursos.apps.CursosConfig",
+    "cursos",
 ]
 
 MIDDLEWARE = [
@@ -112,13 +111,16 @@ LANGUAGE_CODE = "es"
 
 TIME_ZONE = "America/Buenos_Aires"
 
-USE_I18N = False
+USE_I18N = True
 
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "static/"
 
