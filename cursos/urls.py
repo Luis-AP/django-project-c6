@@ -9,4 +9,7 @@ urlpatterns = [
     path("cursos/crear/", create_curso, name="curso_create"),
     path("cursos/<int:curso_id>/actualizar/", update_curso, name="curso_update"),
     path("cursos/<int:curso_id>/eliminar/", delete_curso, name="curso_delete"),
+    path("cursos/<int:curso_id>/archivar/", hide_curso, name="hide_curso"),
+    path("cursos/ocultos/", hidden_courses, name="hidden_courses"),
+    path("cursos/<int:curso_id>/restaurar/", restore_curso, name="restore_curso"),
 ]

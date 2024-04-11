@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from datetime import date
 
@@ -40,7 +40,7 @@ def home(request):
 
 
 def curso_list(request):
-    cursos = Curso.objects.select_related("categoria")
+    cursos = Curso.objects.select_related("categoria").filter(estado="publicado")
     cursos_data = []
     for curso in cursos:
         curso_data = {
@@ -78,6 +78,7 @@ def curso_detail(request, curso_id):
         "num_estudiantes": curso.estudiantes.count(),
         "imagen": f"img/{curso.categoria.color}.png",
         "instructor": curso.instructor,
+        "estado": curso.estado,
         "imagen_instructor": f'img/{curso.instructor.nombre.split(" ")[0]}.png',
     }
     context = {"curso": curso_data}
@@ -98,7 +99,7 @@ def create_curso(request):
 
 
 def update_curso(request, curso_id):
-    curso = Curso.objects.get(id=curso_id)
+    curso = get_object_or_404(Curso, id=curso_id)
     if request.method == "POST":
         form = CursoForm(request.POST, instance=curso)
         if form.is_valid():
@@ -112,6 +113,42 @@ def update_curso(request, curso_id):
 
 
 def delete_curso(request, curso_id):
-    curso = Curso.objects.get(id=curso_id)
+    curso = get_object_or_404(Curso, id=curso_id)
     curso.delete()
+    return redirect("curso_list")
+
+
+def hide_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.estado = "archivado"
+    curso.save()
+
+    return redirect("curso_list")
+
+
+def hidden_courses(request):
+    cursos = Curso.objects.select_related("categoria").filter(estado="archivado")
+    cursos_data = []
+    for curso in cursos:
+        curso_data = {
+            "id": curso.id,
+            "nombre": curso.nombre,
+            "descripcion": curso.descripcion,
+            "precio": curso.precio,
+            "fecha_publicacion": curso.fecha_publicacion,
+            "categoria": curso.categoria.nombre,
+            "duracion": curso.duracion,
+            "num_estudiantes": curso.estudiantes.count(),
+            "imagen": f"img/{curso.categoria.color}.png",
+        }
+        cursos_data.append(curso_data)
+
+    context = {"cursos": cursos_data}
+    return render(request, "cursos/curso_list.html", context=context)
+
+
+def restore_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.estado = "publicado"
+    curso.save()
     return redirect("curso_list")
