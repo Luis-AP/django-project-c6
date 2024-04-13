@@ -3,6 +3,8 @@ from datetime import timedelta
 
 from django.core.exceptions import ValidationError
 
+from tinymce.models import HTMLField
+
 
 class Instructor(models.Model):
     nombre = models.CharField(max_length=100)
@@ -55,7 +57,7 @@ def duracion_maxima(value):
 
 class Curso(models.Model):
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
+    descripcion = models.CharField(max_length=255)
     precio = models.IntegerField(validators=[precio_positivo])
     fecha_publicacion = models.DateField()
     categoria = models.ForeignKey(
@@ -86,6 +88,7 @@ class Curso(models.Model):
     imagen = models.ImageField(
         upload_to="cursos", default="cursos/fallback.png", blank=True
     )
+    contenido = HTMLField(default="")
 
     def __str__(self):
         return self.nombre
