@@ -30,6 +30,7 @@ class CursoAdmin(admin.ModelAdmin):
                     "estado",
                     "destacado",
                     "requisitos",
+                    "imagen",
                 )
             },
         ),

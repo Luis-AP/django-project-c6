@@ -7,7 +7,7 @@ Nuevo Curso
 
 {% block content %}
     <h1>{{ titulo }}</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %} {{ form.as_p }}
         <button type="submit" class="cta-button">{{ submit }}</button>
         <a href="{% url 'curso_list' %}" class="cta-button">Regresar</a>

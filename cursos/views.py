@@ -25,7 +25,7 @@ def home(request):
             "id": curso.id,
             "nombre": curso.nombre,
             "descripcion": curso.descripcion,
-            "imagen": f"img/{curso.categoria.color}.png",
+            "imagen": curso.imagen.url,
         }
         cursos_destacados_data.append(curso_data)
 
@@ -52,7 +52,7 @@ def curso_list(request):
             "categoria": curso.categoria.nombre,
             "duracion": curso.duracion,
             "num_estudiantes": curso.estudiantes.count(),
-            "imagen": f"img/{curso.categoria.color}.png",
+            "imagen": curso.imagen.url,
         }
         cursos_data.append(curso_data)
 
@@ -76,10 +76,10 @@ def curso_detail(request, curso_id):
         "categoria": curso.categoria.nombre,
         "duracion": curso.duracion,
         "num_estudiantes": curso.estudiantes.count(),
-        "imagen": f"img/{curso.categoria.color}.png",
+        "imagen": curso.imagen.url,
         "instructor": curso.instructor,
         "estado": curso.estado,
-        "imagen_instructor": f'img/{curso.instructor.nombre.split(" ")[0]}.png',
+        "imagen_instructor": curso.instructor.avatar.url,
     }
     context = {"curso": curso_data}
     return render(request, "cursos/curso_detail.html", context=context)
@@ -87,7 +87,7 @@ def curso_detail(request, curso_id):
 
 def create_curso(request):
     if request.method == "POST":
-        form = CursoForm(request.POST)
+        form = CursoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("curso_list")
@@ -101,7 +101,7 @@ def create_curso(request):
 def update_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     if request.method == "POST":
-        form = CursoForm(request.POST, instance=curso)
+        form = CursoForm(request.POST, request.FILES, instance=curso)
         if form.is_valid():
             form.save()
             return redirect("curso_list")
@@ -139,7 +139,7 @@ def hidden_courses(request):
             "categoria": curso.categoria.nombre,
             "duracion": curso.duracion,
             "num_estudiantes": curso.estudiantes.count(),
-            "imagen": f"img/{curso.categoria.color}.png",
+            "imagen": curso.imagen.url,
         }
         cursos_data.append(curso_data)
 
