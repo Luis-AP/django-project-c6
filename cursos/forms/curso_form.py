@@ -2,6 +2,8 @@ from ..models import Curso, Instructor, Categoria
 from django import forms
 from django.core.validators import MinValueValidator
 
+from tinymce.widgets import TinyMCE
+
 
 class CursoForm(forms.ModelForm):
     instructor = forms.ModelChoiceField(
@@ -21,6 +23,7 @@ class CursoForm(forms.ModelForm):
         model = Curso
         fields = [
             "nombre",
+            "contenido",
             "descripcion",
             "precio",
             "fecha_publicacion",
@@ -33,7 +36,8 @@ class CursoForm(forms.ModelForm):
         ]
         labels = {
             "nombre": "Nombre del curso",
-            "descripcion": "Descripción",
+            "contenido": "Contenido",
+            "descripcion": "Descripción corta",
             "precio": "Precio",
             "fecha_publicacion": "Fecha de publicación",
             "instructor": "Instructor",
@@ -50,8 +54,12 @@ class CursoForm(forms.ModelForm):
                     "class": "form-control",
                 }
             ),
-            "descripcion": forms.Textarea(
-                attrs={"placeholder": "Ingrese la descripción", "class": "form-control"}
+            "contenido": TinyMCE(),
+            "descripcion": forms.TextInput(
+                attrs={
+                    "placeholder": "Ingrese la descripción corta",
+                    "class": "form-control",
+                }
             ),
             "precio": forms.NumberInput(
                 attrs={"placeholder": "Ingrese el precio", "class": "form-control"}

@@ -80,6 +80,7 @@ def curso_detail(request, curso_id):
         "instructor": curso.instructor,
         "estado": curso.estado,
         "imagen_instructor": curso.instructor.avatar.url,
+        "contenido": curso.contenido,
     }
     context = {"curso": curso_data}
     return render(request, "cursos/curso_detail.html", context=context)
